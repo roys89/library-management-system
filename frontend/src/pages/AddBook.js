@@ -2,19 +2,23 @@ import React, { useState } from 'react';
 import api from '../api'; // Import the api instance
 
 const AddBook = () => {
-  const [title, setTitle] = useState('');
+  const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
-  const [isbn, setIsbn] = useState('');
+  const [status, setStatus] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await api.post('/books', {
-        title,
+        name,
         author,
-        isbn,
+        status,
       });
       alert('Book added successfully');
+      // Optionally, you can clear the form fields after successful submission
+      setName('');
+      setAuthor('');
+      setStatus('');
     } catch (error) {
       console.error('Error adding book:', error);
       alert('Failed to add book');
@@ -25,11 +29,11 @@ const AddBook = () => {
     <form onSubmit={handleSubmit}>
       <h2>Add Book</h2>
       <div>
-        <label>Title</label>
+        <label>Name</label>
         <input
           type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           required
         />
       </div>
@@ -43,11 +47,11 @@ const AddBook = () => {
         />
       </div>
       <div>
-        <label>ISBN</label>
+        <label>Status</label>
         <input
           type="text"
-          value={isbn}
-          onChange={(e) => setIsbn(e.target.value)}
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
           required
         />
       </div>

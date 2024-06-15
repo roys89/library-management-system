@@ -10,7 +10,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const loginEndpoint = isAdmin ? '/auth/login-admin' : '/auth/login';
+    const loginEndpoint = isAdmin ? '/auth/admin/login' : '/auth/login';
     try {
       const response = await api.post(loginEndpoint, { username, password });
       localStorage.setItem('token', response.data.token);

@@ -11,14 +11,21 @@ const generateToken = (userId, isAdmin = false) => {
 
 // Middleware to verify JWT token
 const verifyToken = (req, res, next) => {
-  const token = req.header('Authorization');
+  const authHeader = req.header('Authorization');
+
+  if (!authHeader) {
+    return res.status(401).json({ message: 'Authorization header missing' });
+  }
+
+  const token = authHeader.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ message: 'Authorization token missing' });
+    return res.status(401).json({ message: 'Token missing' });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'dsyIqJbYS1E7xPvV');
+    console.log('Decoded Token:', decoded); // Debug log
     req.user = { id: decoded.id, isAdmin: decoded.isAdmin };
     next();
   } catch (error) {

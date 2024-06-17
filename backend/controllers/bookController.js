@@ -28,6 +28,16 @@ const getAllBooks = async (req, res) => {
   }
 };
 
+// Get Available Books
+const getAvailableBooks = async (req, res) => {
+  try {
+    const books = await Book.find({ status: 'available' });
+    res.status(200).json(books);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching available books', error });
+  }
+};
+
 // Remove Book
 const removeBook = async (req, res) => {
   try {
@@ -38,4 +48,4 @@ const removeBook = async (req, res) => {
   }
 };
 
-module.exports = { addBook, getAllBooks, removeBook };
+module.exports = { addBook, getAllBooks, getAvailableBooks, removeBook };

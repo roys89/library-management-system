@@ -1,10 +1,16 @@
 const express = require('express');
-const { issueBook, returnBook, getAllTransactions } = require('../controllers/transactionController');
+const { issueBook, returnBook, getUserTransactions } = require('../controllers/transactionController');
+const { verifyToken } = require('../controllers/authController');
 
 const router = express.Router();
 
-router.post('/issue', issueBook);
-router.post('/return', returnBook);
-router.get('/', getAllTransactions);
+// Issue a book
+router.post('/issue', verifyToken, issueBook);
+
+// Return a book
+router.post('/return', verifyToken, returnBook);
+
+// Get transactions for a user
+router.get('/user', verifyToken, getUserTransactions);
 
 module.exports = router;
